@@ -13,7 +13,10 @@ state("LMD_Win_x64", "v1.0.0.2347.1131 (Steam)")
 	byte startup : "GameAssembly.dll", 0x01C36618, 0x758, 0x3d0, 0x23;
 
 	/* Current checkpoint */
-	int nCheckpoint : "GameAssembly.dll", 0x01C42638, 0xb8, 0x170, 0x48, 0x5c;
+	int curCheckpoint : "GameAssembly.dll", 0x01C42638, 0xb8, 0x170, 0x48, 0x5c;
+
+	/* Total checkpoint */
+	int totCheckpoint : "GameAssembly.dll", 0x01D469B8, 0x1d0, 0x10, 0x80, 0x5c;
 }
 
 startup
@@ -48,7 +51,7 @@ start
 split
 {
 	/* Check end of track */
-	if (current.nCheckpoint == 8 && old.nCheckpoint == 7 && vars.game_state == "TRACK")
+	if (current.curCheckpoint == (current.totCheckpoint+1) && old.curCheckpoint == current.totCheckpoint && vars.game_state == "TRACK")
 	{
 		vars.game_state = "MENU";
 		return true;
