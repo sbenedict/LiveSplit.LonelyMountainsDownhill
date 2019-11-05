@@ -3,13 +3,14 @@
 
  Game: Lonely Mountains: Downhill
  Game Version: 1.0.1.2356.0060 (Steam)
- Script Version: 1.03 (2019-11-05)
+ Script Version: 1.04 (2019-11-05)
 
  Contributors:
     Kilaye (discord: Kilaye#8700)
     psam (discord: psam#0545)
  
  Changelog:
+    v1.04 - Increased refresh rate to 100/second (psam)
     v1.03 - Simplified logic to use only 'in game' and 'finished' (psam)
     v1.02 - Changed start to level startup (psam)
           - Updated for game v1.01 (psam)
@@ -25,6 +26,17 @@ state("LMD_Win_x64", "v1.0.1.2356.0060 (Steam)")
 
 	/* Current checkpoint */
 	int curCheckpoint : "GameAssembly.dll", 0x01D34D40, 0xB8, 0x10, 0x48, 0x64; // finished = -1
+}
+
+init
+{
+    print(modules.First().FileVersionInfo.ToString());
+    refreshRate = 100.0;
+}
+
+exit
+{
+    refreshRate = 0.5;
 }
 
 startup
