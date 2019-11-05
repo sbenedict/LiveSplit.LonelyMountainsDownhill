@@ -1,2 +1,2 @@
 # LiveSplit.LonelyMountainsDownhill
-An Auto Splitting Component for LiveSplit that splits Lonely Mountains: Downhill.
+An Auto Splitting Script (ASL) and splits files (LSS) for LiveSplit that splits Lonely Mountains: Downhill.
