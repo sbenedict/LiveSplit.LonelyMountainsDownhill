@@ -3,13 +3,14 @@
 
  Game: Lonely Mountains: Downhill
  Game Version: 1.0.1.2356.0060 (Steam)
- Script Version: 1.02 (2019-11-04)
+ Script Version: 1.03 (2019-11-05)
 
  Contributors:
     Kilaye (discord: Kilaye#8700)
     psam (discord: psam#0545)
  
  Changelog:
+    v1.03 - Simplified logic to use only 'in game' and 'finished' (psam)
     v1.02 - Changed start to level startup (psam)
           - Updated for game v1.01 (psam)
     v1.01 - Fixed checkpoint split (psam)
@@ -19,29 +20,11 @@
 
 state("LMD_Win_x64", "v1.0.1.2356.0060 (Steam)")
 {
-    /* Is in menu */
+    /* Is in game (not menu) */
     byte inGame : "GameAssembly.dll", 0x01D92D08;
 
-	/* Is the timer running */
-	byte timerRunning : "GameAssembly.dll", 0x01D34D40, 0xB8, 0x10, 0x20;
-
-	/* Did we cross at least one checkpoint */
-	byte initCheckpoint : "GameAssembly.dll", 0x01D34D40, 0xB8, 0x10, 0x21;
-
-	/* Crash state */
-	byte crash : "GameAssembly.dll", 0x01D34D40, 0xB8, 0x10, 0x22;
-
-	/* Level startup */
-	byte startup : "GameAssembly.dll", 0x01D34D40, 0xB8, 0x10, 0x23;
-
 	/* Current checkpoint */
-	int curCheckpoint : "GameAssembly.dll", 0x01D34D40, 0xB8, 0x10, 0x48, 0x5c;
-
-	/* Total checkpoints */
-	int totCheckpoints : "GameAssembly.dll", 0x01D32F08, 0xB8, 0x10, 0x20, 0xA4;
-
-    /* Trail finished */
-    int trailFinished : "GameAssembly.dll", 0x01D34D40, 0xB8, 0x10, 0x48, 0x64; // while on trail = curCheckpoint, finished = -1
+	int curCheckpoint : "GameAssembly.dll", 0x01D34D40, 0xB8, 0x10, 0x48, 0x64; // finished = -1
 }
 
 startup
@@ -53,35 +36,25 @@ startup
 
 update
 {
-	//if (current.startup == 1 && vars.game_state == "MENU")
-	//{
-	//	vars.game_state = "STARTUP";
-	//}
-	
-	/* Check beginning of track */
-	//if (current.timerRunning == 1 && old.timerRunning == 0 && vars.game_state == "STARTUP")
-	//{
-	//	vars.game_state = "TRACK";
-	//}
-    
+    /* Check if quit to menu */
+    if (vars.game_state == "TRACK" && current.inGame == 0)
+    {
+        vars.game_state = "MENU";
+    }
+
     /* Print debug info */
-    ///*
+    /*
     print("vars.game_state: " + vars.game_state
-     + "\nmenuPtr: " + current.menuPtr
-     + "\ntimerRunning: " + current.timerRunning
-     + "\ninitCheckpoint: " + current.initCheckpoint
-     + "\ncrash: " + current.crash
-     + "\nstartup: " + current.startup
+     + "\ninGame: " + current.inGame
      + "\ncurCheckpoint: " + current.curCheckpoint
-     + "\ntotCheckpoints: " + current.totCheckpoints
-     + "\ntrailFinished: " + current.trailFinished);
-    //*/
+     + "\nold.curCheckpoint: " + old.curCheckpoint);
+    */
 }
 
 start
 {
 	/* Check level startup */
-	if (current.startup == 1 && old.startup == 0 && current.totCheckpoints > 0)
+	if (current.inGame == 1 && old.inGame == 0)
 	{
 		vars.game_state = "TRACK";
 		return true;
@@ -90,17 +63,20 @@ start
 
 split
 {
-	/* Check end of track */
-	if (current.trailFinished == -1 && vars.game_state == "TRACK")
-	{
-		vars.game_state = "MENU";
-		return true;
-	}
-
-    /* Check end of checkpoint */
-    if (settings["splitAtCheckpoint"] && current.curCheckpoint != old.curCheckpoint && vars.game_state == "TRACK")
+    if (current.inGame == 1)
     {
-		return true;
+        /* Check end of track */
+        if (current.curCheckpoint == -1 && old.curCheckpoint != -1)
+        {
+            vars.game_state = "MENU";
+            return true;
+        }
+
+        /* Check end of checkpoint */
+        if (settings["splitAtCheckpoint"] && current.curCheckpoint > 1 && current.curCheckpoint != old.curCheckpoint)
+        {
+            return true;
+        }
     }
 }
 
