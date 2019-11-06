@@ -4,12 +4,12 @@ An Auto Splitting Script (ASL) and splits files (LSS) for LiveSplit that splits 
 ---
 
 Autosplit Script (ASL file): 
-- [lmd.asl](https://sbenedict.github.io/LiveSplit.LonelyMountainsDownhill/autosplit/lmd.asl)
+- [lmd.asl](autosplit/lmd.asl)
 
 ---
 
 Splits (LSS files):
-- [by trail](https://sbenedict.github.io/LiveSplit.LonelyMountainsDownhill/splits/en/Lonely%20Mountains%20Downhill%20by%20trail.lss)
+- [by trail](splits/en/Lonely%20Mountains%20Downhill%20by%20trail.lss)
 - [by checkpoint](https://sbenedict.github.io/LiveSplit.LonelyMountainsDownhill/splits/en/Lonely%20Mountains%20Downhill%20by%20checkpoint.lss)
 - by checkpoint per mountain
    - [Graterhorn](https://sbenedict.github.io/LiveSplit.LonelyMountainsDownhill/splits/en/Lonely%20Mountains%20Downhill%20-%20Graterhorn.lss)
