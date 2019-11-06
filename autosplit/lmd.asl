@@ -3,13 +3,15 @@
 
     Game: Lonely Mountains: Downhill
     Game Version: 1.0.1.2356.0060 (Steam)
-    Script Version: 1.04 (2019-11-05)
+                  1.0.0.2348.0868 (Xbox)
+    Script Version: 1.06 (2019-11-06)
 
     Contributors:
         Kilaye (discord: Kilaye#8700)
         psam (discord: psam#0545)
  
     Changelog:
+        v1.06 - Add Xbox game version (psam)
         v1.05 - Change game time tracking to sync with game timer (psam)
               - Add game version check (psam)
         v1.04 - Increased refresh rate to 100/second (psam)
@@ -33,6 +35,18 @@ state("LMD_Win_x64", "v1.0.1.2356.0060 (Steam)")
     int curCheckpoint : "GameAssembly.dll", 0x01D34D40, 0xB8, 0x10, 0x48, 0x64; // finished = -1
 }
 
+state("LMD_PC-MasterBuild-Xbl_Win_x64", "v1.0.0.2348.0868 (Xbox)")
+{
+    /* Is in game (not menu) */
+    byte inGame : "mono-2.0-bdwgc.dll", 0x00499034;
+
+    /* Is the timer running */
+    byte timerRunning : "mono-2.0-bdwgc.dll", 0x0048FA90, 0xD10, 0x58;
+
+    /* Current checkpoint */
+    int curCheckpoint : "mono-2.0-bdwgc.dll", 0x0048FA90, 0xD10, 0x20, 0x10, 0x28, 0x20, 0x38, 0x38, 0x50, 0x70, 0x64; // finished = -1
+}
+
 startup
 {
     settings.Add("splitAtCheckpoint", false, "Split at checkpoint");
@@ -46,6 +60,7 @@ init
     print("FileName: " + fileName + "\nFileVersion: " + fileVersion);
 
     if (fileName == "LMD_Win_x64" && fileVersion == "2018.4.8.10209753") version = "v1.0.1.2356.0060 (Steam)";
+    if (fileName == "LMD_PC-MasterBuild-Xbl_Win_x64" && fileVersion == "2018.4.8.10209753") version = "v1.0.0.2348.0868 (Xbox)";
 
     refreshRate = 100.0;
 }
