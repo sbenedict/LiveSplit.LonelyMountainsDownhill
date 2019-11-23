@@ -28,5 +28,5 @@ Splits (LSS files):
       ga('send', 'pageview');
       
       // setup link click tracking
-      document.querySelectorAll("span > a").forEach((x) => x.addEventListener('click', (e) => ga('send', 'pageview', e.target.href)));
+      document.querySelectorAll("span > a").forEach((x) => x.addEventListener('click', (e) => ga('send', 'pageview', new URL(e.target.href).pathname)));
 </script>
