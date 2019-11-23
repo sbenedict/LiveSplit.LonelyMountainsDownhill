@@ -32,8 +32,11 @@ Splits (LSS files):
       document.querySelectorAll("a[href $= '.lss'], a[href $= '.asl']")
         .forEach(x => {
             x.addEventListener('click', e => {
-                var page = new URL(e.target.href).pathname;
-                ga('send', 'pageview', page)
+                ga('send', {
+                    hitType: 'pageview',
+                    page: new URL(e.target.href).pathname,
+                    title: decodeURI(e.href.substring(e.href.lastIndexOf("/") + 1))
+                });
             });
         });
 </script>
