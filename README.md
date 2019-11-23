@@ -24,6 +24,9 @@ Splits (LSS files):
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
       ga('create', 'UA-153178211-1', 'auto');
-      ga('require', 'linkid');
+      //ga('require', 'linkid');
       ga('send', 'pageview');
+      
+      // setup link click tracking
+      document.querySelectorAll("span > a").forEach((x) => x.addEventListener('click', (e) => ga('send', 'pageview', e.target.href)));
 </script>
