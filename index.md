@@ -31,7 +31,7 @@ Splits (LSS files):
       // setup link click tracking
       document.querySelectorAll("a[href $= '.lss'], a[href $= '.asl']")
         .forEach(x => {
-            var page = new URL(e.target.href).pathname);
-            x.addEventListener('click', (e) => ga('send', 'pageview', page));
+            var page = new URL(e.target.href).pathname;
+            x.addEventListener('click', e => ga('send', 'pageview', page));
         });
 </script>
