@@ -18,7 +18,7 @@ Splits (LSS files):
    - <span id="download-lss-m3bycheckpoint">[Sierra Rivera](splits/en/Lonely%20Mountains%20Downhill%20-%20Sierra%20Rivera.lss)</span>
    - <span id="download-lss-m4bycheckpoint">[Mount Riley](splits/en/Lonely%20Mountains%20Downhill%20-%20Mount%20Riley.lss)</span>
 
-<script>
+<script defer>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
