@@ -28,14 +28,16 @@ Splits (LSS files):
       //ga('require', 'linkid');
       ga('send', 'pageview');
       
-      // setup link click tracking
+      // setup download tracking
       document.querySelectorAll("a[href $= '.lss'], a[href $= '.asl']")
         .forEach(x => {
             x.addEventListener('click', e => {
+                var page = new URL(e.target.href).pathname;
+                var title = decodeURI(page.substring(page.lastIndexOf("/") + 1));
                 ga('send', {
                     hitType: 'pageview',
-                    page: new URL(e.target.href).pathname,
-                    title: decodeURI(e.href.substring(e.href.lastIndexOf("/") + 1))
+                    page: page,
+                    title: title
                 });
             });
         });
